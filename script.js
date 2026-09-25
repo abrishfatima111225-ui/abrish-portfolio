@@ -3,7 +3,7 @@
    ========================================================= */
 
 // Set your contact email here — it updates the contact link and the form.
-const CONTACT_EMAIL = "your.email@example.com";
+const CONTACT_EMAIL = "abrishfatima111225@gmail.com";
 
 document.addEventListener("DOMContentLoaded", () => {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
