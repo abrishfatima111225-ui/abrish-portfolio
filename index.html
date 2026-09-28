@@ -13,6 +13,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
+  <script>
+    try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  </script>
 </head>
 
 <body>
@@ -43,9 +46,24 @@
     <a href="#contact" class="nav-link nav-cta">Contact</a>
   </nav>
 
-  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+  <div class="nav-actions">
+    <div class="theme-picker">
+      <button class="theme-btn" id="themeBtn" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="themeMenu" title="Change theme">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18c1.1 0 1.8-.9 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 004-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11.5" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>
+      </button>
+      <div class="theme-menu" id="themeMenu" role="menu" aria-label="Choose a theme">
+        <p class="theme-menu-title">Theme</p>
+        <button class="theme-option" role="menuitemradio" data-theme-value="dark"><span class="swatch swatch-dark"></span>Dark</button>
+        <button class="theme-option" role="menuitemradio" data-theme-value="light"><span class="swatch swatch-light"></span>Light</button>
+        <button class="theme-option" role="menuitemradio" data-theme-value="ocean"><span class="swatch swatch-ocean"></span>Ocean</button>
+        <button class="theme-option" role="menuitemradio" data-theme-value="emerald"><span class="swatch swatch-emerald"></span>Emerald</button>
+        <button class="theme-option" role="menuitemradio" data-theme-value="sunset"><span class="swatch swatch-sunset"></span>Sunset</button>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
   </button>
+  </div>
 
 </div>
 

@@ -206,3 +206,48 @@ document.addEventListener("DOMContentLoaded", () => {
     input.addEventListener("input", () => input.closest(".field").classList.remove("invalid"))
   );
 });
+
+/* ---------- Theme picker ---------- */
+(() => {
+  const THEMES = ["dark", "light", "ocean", "emerald", "sunset"];
+  const root = document.documentElement;
+  const btn = document.getElementById("themeBtn");
+  const menu = document.getElementById("themeMenu");
+  if (!btn || !menu) return;
+  const options = menu.querySelectorAll(".theme-option");
+
+  const applyTheme = (theme) => {
+    if (!THEMES.includes(theme)) theme = "dark";
+    if (theme === "dark") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", theme);
+    options.forEach((o) => o.setAttribute("aria-checked", String(o.dataset.themeValue === theme)));
+    try { localStorage.setItem("theme", theme); } catch (e) {}
+  };
+
+  const setOpen = (open) => {
+    menu.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", String(open));
+  };
+
+  let saved = "dark";
+  try { saved = localStorage.getItem("theme") || "dark"; } catch (e) {}
+  applyTheme(saved);
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setOpen(!menu.classList.contains("open"));
+  });
+
+  options.forEach((o) =>
+    o.addEventListener("click", () => {
+      applyTheme(o.dataset.themeValue);
+      setOpen(false);
+      btn.focus();
+    })
+  );
+
+  document.addEventListener("click", (e) => {
+    if (!menu.contains(e.target) && e.target !== btn) setOpen(false);
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+})();
