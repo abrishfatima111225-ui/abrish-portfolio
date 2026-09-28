@@ -14,7 +14,11 @@
 
   <link rel="stylesheet" href="style.css" />
   <script>
-    try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "auto") t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      if (t && t !== "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
   </script>
 </head>
 
@@ -52,13 +56,25 @@
         <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18c1.1 0 1.8-.9 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 004-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11.5" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>
       </button>
       <div class="theme-menu" id="themeMenu" role="menu" aria-label="Choose a theme">
-        <p class="theme-menu-title">Theme</p>
-        <button class="theme-option" role="menuitemradio" data-theme-value="dark"><span class="swatch swatch-dark"></span>Dark</button>
-        <button class="theme-option" role="menuitemradio" data-theme-value="light"><span class="swatch swatch-light"></span>Light</button>
-        <button class="theme-option" role="menuitemradio" data-theme-value="ocean"><span class="swatch swatch-ocean"></span>Ocean</button>
-        <button class="theme-option" role="menuitemradio" data-theme-value="emerald"><span class="swatch swatch-emerald"></span>Emerald</button>
-        <button class="theme-option" role="menuitemradio" data-theme-value="sunset"><span class="swatch swatch-sunset"></span>Sunset</button>
-      </div>
+          <div class="theme-menu-head"><span class="theme-menu-title">Appearance</span><span class="theme-menu-hint">Saved on this device</span></div>
+          <p class="theme-group-label">Dark</p>
+          <div class="theme-grid">
+            <button class="theme-option" role="menuitemradio" data-theme-value="dark" style="--p-bg:#07080d;--p-text:#e8eaf2;--p-a1:#22d3ee;--p-a2:#a78bfa;--p-line:rgba(255,255,255,.14)"><span class="theme-preview"></span>Midnight</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="graphite" style="--p-bg:#0b0c10;--p-text:#ececf1;--p-a1:#60a5fa;--p-a2:#94a3b8;--p-line:rgba(255,255,255,.14)"><span class="theme-preview"></span>Graphite</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="ocean" style="--p-bg:#050b18;--p-text:#e6edf8;--p-a1:#38bdf8;--p-a2:#6366f1;--p-line:rgba(255,255,255,.14)"><span class="theme-preview"></span>Ocean</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="emerald" style="--p-bg:#050d0a;--p-text:#e6f2ec;--p-a1:#34d399;--p-a2:#a3e635;--p-line:rgba(255,255,255,.14)"><span class="theme-preview"></span>Emerald</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="sunset" style="--p-bg:#0e0709;--p-text:#f6e9ec;--p-a1:#fb923c;--p-a2:#f472b6;--p-line:rgba(255,255,255,.14)"><span class="theme-preview"></span>Sunset</button>
+          </div>
+          <p class="theme-group-label">Light</p>
+          <div class="theme-grid">
+            <button class="theme-option" role="menuitemradio" data-theme-value="light" style="--p-bg:#f5f6fa;--p-text:#0f172a;--p-a1:#0891b2;--p-a2:#7c3aed;--p-line:rgba(15,23,42,.14)"><span class="theme-preview"></span>Daylight</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="sky" style="--p-bg:#f2f6fc;--p-text:#0f172a;--p-a1:#2563eb;--p-a2:#0284c7;--p-line:rgba(15,23,42,.14)"><span class="theme-preview"></span>Sky</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="mint" style="--p-bg:#f2f9f6;--p-text:#0f172a;--p-a1:#059669;--p-a2:#0d9488;--p-line:rgba(15,23,42,.14)"><span class="theme-preview"></span>Mint</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="rose" style="--p-bg:#fcf5f7;--p-text:#0f172a;--p-a1:#db2777;--p-a2:#9333ea;--p-line:rgba(15,23,42,.14)"><span class="theme-preview"></span>Rose</button>
+            <button class="theme-option" role="menuitemradio" data-theme-value="sand" style="--p-bg:#faf7f1;--p-text:#1c1917;--p-a1:#b45309;--p-a2:#c2410c;--p-line:rgba(15,23,42,.14)"><span class="theme-preview"></span>Sand</button>
+          </div>
+          <button class="theme-auto" role="menuitemradio" data-theme-value="auto"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span>Match my device<small>Midnight or Daylight, following your system setting</small></span></button>
+        </div>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>

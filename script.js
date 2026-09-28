@@ -209,19 +209,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* ---------- Theme picker ---------- */
 (() => {
-  const THEMES = ["dark", "light", "ocean", "emerald", "sunset"];
+  const THEMES = ["dark", "graphite", "ocean", "emerald", "sunset", "light", "sky", "mint", "rose", "sand", "auto"];
   const root = document.documentElement;
   const btn = document.getElementById("themeBtn");
   const menu = document.getElementById("themeMenu");
   if (!btn || !menu) return;
-  const options = menu.querySelectorAll(".theme-option");
+  const options = menu.querySelectorAll("[data-theme-value]");
+  const lightQuery = window.matchMedia("(prefers-color-scheme: light)");
+  let current = "dark";
 
-  const applyTheme = (theme) => {
+  const resolve = (theme) => (theme === "auto" ? (lightQuery.matches ? "light" : "dark") : theme);
+
+  const applyTheme = (theme, save = true) => {
     if (!THEMES.includes(theme)) theme = "dark";
-    if (theme === "dark") root.removeAttribute("data-theme");
-    else root.setAttribute("data-theme", theme);
+    current = theme;
+    const actual = resolve(theme);
+    if (actual === "dark") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", actual);
     options.forEach((o) => o.setAttribute("aria-checked", String(o.dataset.themeValue === theme)));
-    try { localStorage.setItem("theme", theme); } catch (e) {}
+    if (save) { try { localStorage.setItem("theme", theme); } catch (e) {} }
   };
 
   const setOpen = (open) => {
@@ -231,7 +237,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let saved = "dark";
   try { saved = localStorage.getItem("theme") || "dark"; } catch (e) {}
-  applyTheme(saved);
+  applyTheme(saved, false);
+
+  // Follow the device setting live when "Match my device" is chosen
+  lightQuery.addEventListener?.("change", () => { if (current === "auto") applyTheme("auto", false); });
 
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -247,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   document.addEventListener("click", (e) => {
-    if (!menu.contains(e.target) && e.target !== btn) setOpen(false);
+    if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) setOpen(false);
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
 })();
